@@ -1,3 +1,4 @@
+
 fName = './animals.csv'
 aDataBase = open(fName, 'r', encoding='utf-8-sig')
 
@@ -6,9 +7,7 @@ print('Állat hozzáadása - (1)  állat eltávolítása - (2)  kilépés - (0)'
 
 zoo = []
 aZoo = []
-animals = {}
 userInput = None
-
 
 aDataBase.seek(0) #a mutató lenullázása.
 
@@ -27,27 +26,44 @@ for i in aZoo: #igényelt állatok kiíratása.
     
 print('\n------------------------')
 
+animals = {}
+
 while userInput != '0':
     userInput = input('Mit szeretne tenni? ')
     
     if userInput == '1':  #Állatok hozzáadása az állatkerthez.
         name = input('Milyen állatot szeretne hozzáadni? ') 
-            
+        
+        
         for i in aZoo: #'name' változó vizsgálása, hogy benne van-e az adatbázisba.
             if name == i['aName']:
                 print('Az állatkert igényt tart erre az állatra.')
-                        
-                if name == i['aName']: 
-                    
-                    amount = int(input('Hány darabot kíván adni az állatkertnek? ')) #darabszám megadása
                 
-                    if amount > 0:
-                        animals[name] += amount 
-                        zoo.append(animals)
-                    else:
-                        print(f'Az állatkert sajnálatos módon nem tudja elfogadni azt a {name} nevű állatot, amelyből 0 darabot szeretne adni.')
-                        print('------------------------')
+                while True:        
+                    
+                    if name == i['aName']: 
                         
+                        amountStr = input('Hány darabot kíván adni az állatkertnek? ') #darabszám megadása
+                        
+                        try:
+                            amount = int(amountStr)
+                            
+                            if amount > 0:
+                                if name not in animals:
+                                    animals[name] = amount     
+                                    break
+                                else:
+                                    animals[name] += amount    
+                                    break                      
+                            else:
+                                    print(f'Az állatkert sajnálatos módon nem tudja elfogadni azt a/az {name} nevű állatot, amelyből 0 darabot szeretne adni.')
+                                    print('------------------------')   
+
+                        except ValueError:
+                            print('Ezt az értéket nem tudja felhasználni az állatkert! Kérlek számot adj meg.')
+                            print()
+                        
+print(animals)
                     
                     
                 
